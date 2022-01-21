@@ -1,14 +1,17 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
-	fmt.Println("placeholder")
+	//fmt.Println("placeholder")
+
+	basicInfo()
+	//fmt.Printf("%v is a level %v %v %v.\n", name, level, race, job)
 
 	diceroll()
-
-	fmt.Printf(" Str: %d\n Con: %d\n Dex: %d\n Cha: %d\n Wis: %d\n Int: %d\n", strength, constitution, dexterity, charisma, wisdom, intelligence)
-
+	/*fmt.Println("Your base stats are...")
+	fmt.Printf("Str: %d, mod %d\n", Strength, Str)
+	fmt.Printf("Con: %d, mod %d\n", Constitution, Con)
+	fmt.Printf("Dex: %d, mod %d\n", Dexterity, Dex)
+	fmt.Printf("Cha: %d, mod %d\n", Charisma, Cha)
+	fmt.Printf("Wis: %d, mod %d\n", Wisdom, Wis)
+	fmt.Printf("Int: %d, mod %d\n", Intelligence, Int)*/
 }

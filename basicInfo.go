@@ -19,7 +19,7 @@ func basicInfo() {
 	fmt.Scan(&level)
 
 	input = bufio.NewScanner(os.Stdin)
-	fmt.Printf("What race is %v?\n", name)
+	fmt.Printf("What species is %v?\n", name)
 	input.Scan()
 	race = input.Text()
 
@@ -28,5 +28,5 @@ func basicInfo() {
 	input.Scan()
 	job = input.Text()
 
-	fmt.Printf("%v is a level %v %v %v.\n", name, level, race, job)
+	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, race, job)
 }

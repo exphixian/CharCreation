@@ -3,9 +3,33 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
-var strength, constitution, dexterity, charisma, wisdom, intelligence int
+var Strength, Constitution, Dexterity, Charisma, Wisdom, Intelligence int
+var Str, Con, Dex, Cha, Wis, Int int
+
+func roll() int {
+	rand.Seed(time.Now().UnixNano())
+	stat := rand.Intn(15) + 3
+	return stat
+}
+
+func modifier(stat int) int {
+	modifier := (stat - 10) / 2
+	if modifier < 0 {
+		modifier = modifier - 1
+	}
+	return modifier
+}
+
+func classModifier() {
+	fmt.Println("Class modifiers for stats is in development.")
+}
+
+func levelAdjustment() {
+	fmt.Println("Level Adjustment for stats is in development.")
+}
 
 func diceroll() {
 	var random string
@@ -13,27 +37,51 @@ func diceroll() {
 	fmt.Scan(&random)
 
 	if random == "yes" {
-		strength = rand.Intn(12) + 6
-		constitution = rand.Intn(12) + 6
-		dexterity = rand.Intn(12) + 6
-		charisma = rand.Intn(12) + 6
-		wisdom = rand.Intn(12) + 6
-		intelligence = rand.Intn(12) + 6
+		Strength = roll()
+		Constitution = roll()
+		Dexterity = roll()
+		Charisma = roll()
+		Wisdom = roll()
+		Intelligence = roll()
 
 	} else {
 		fmt.Println("Please insert your stats.")
 		fmt.Print("Str: ")
-		fmt.Scan(&strength)
+		fmt.Scan(&Strength)
 		fmt.Print("Con: ")
-		fmt.Scan(&constitution)
+		fmt.Scan(&Constitution)
 		fmt.Print("Dex: ")
-		fmt.Scan(&dexterity)
+		fmt.Scan(&Dexterity)
 		fmt.Print("Cha: ")
-		fmt.Scan(&charisma)
+		fmt.Scan(&Charisma)
 		fmt.Print("Wis: ")
-		fmt.Scan(&wisdom)
+		fmt.Scan(&Wisdom)
 		fmt.Print("Int: ")
-		fmt.Scan(&intelligence)
+		fmt.Scan(&Intelligence)
 	}
 
+	classModifier()
+	levelAdjustment()
+	fmt.Println()
+
+	Str := modifier(Strength)
+	Con := modifier(Constitution)
+	Dex := modifier(Dexterity)
+	Cha := modifier(Charisma)
+	Wis := modifier(Wisdom)
+	Int := modifier(Intelligence)
+
+	fmt.Println("\nYour base stats are...")
+	time.Sleep(time.Second)
+	fmt.Printf("\nStr: %d, mod %d\n", Strength, Str)
+	time.Sleep(time.Second)
+	fmt.Printf("Con: %d, mod %d\n", Constitution, Con)
+	time.Sleep(time.Second)
+	fmt.Printf("Dex: %d, mod %d\n", Dexterity, Dex)
+	time.Sleep(time.Second)
+	fmt.Printf("Cha: %d, mod %d\n", Charisma, Cha)
+	time.Sleep(time.Second)
+	fmt.Printf("Wis: %d, mod %d\n", Wisdom, Wis)
+	time.Sleep(time.Second)
+	fmt.Printf("Int: %d, mod %d\n", Intelligence, Int)
 }
