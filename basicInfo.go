@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
 )
 
 var name, race, job string
@@ -28,5 +29,10 @@ func basicInfo() {
 	input.Scan()
 	job = input.Text()
 
+	time.Sleep(time.Second)
+
 	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, race, job)
+
+	time.Sleep(time.Second)
+
 }
