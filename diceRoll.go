@@ -9,9 +9,6 @@ import (
 var Strength, Constitution, Dexterity, Charisma, Wisdom, Intelligence int
 var Str, Con, Dex, Cha, Wis, Int int
 
-//var stats map[string] int
-//var mods map[string] int
-
 func roll() int {
 	rand.Seed(time.Now().UnixNano())
 	stat := rand.Intn(15) + 3
@@ -29,13 +26,11 @@ func modifier(stat int) int {
 func classModifier() {
 	fmt.Println("\nClass modifiers for stats is in development.")
 	time.Sleep(time.Second)
-
 }
 
 func levelAdjustment() {
 	fmt.Println("\nLevel Adjustment for stats is in development.")
 	time.Sleep(time.Second)
-
 }
 
 func diceroll() {
