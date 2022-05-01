@@ -12,30 +12,39 @@ func roll() int {
 	return stat
 }
 
-func modifier(stat int) int {
-	modifier := (stat - 10) / 2
-	if modifier < 0 {
-		modifier--
+func modifier(modifier int) int {
+	if modifier < 10 {
+		modifier -= 1
 	}
+	modifier = (modifier - 10) / 2
 	return modifier
 }
 
 func main() {
-	var random string
-	fmt.Println("Do you want your stats to be randomly generated?")
-	fmt.Scan(&random)
+	var generate string
+	var random bool
+
+	fmt.Println("Yes or No: do you want your stats to be randomly generated?")
+	fmt.Scan(&generate)
+	if generate == "yes" {
+		random = true
+	} else if generate == "Yes" {
+		random = true
+	} else {
+		random = false
+	}
 
 	Stats := make(map[string]int)
 	Mods := make(map[string]int)
-	Cats := [6]string{"Strength", "Constitution", "Dexterity", "Intelligence", "Wisdom", "Charisma"}
+	Cats := [6]string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
 	Modifiers := [6]string{"STR", "CON", "DEX", "INT", "WIS", "CHA"}
 
-	if random == "yes" {
+	if random {
 		for i := 0; i < len(Cats); i++ {
 			Stats[Cats[i]] = roll()
 		}
 
-	} else if random == "no" {
+	} else {
 		fmt.Println("Please insert your stats.")
 		var input int
 		for i := 0; i < len(Cats); i++ {
@@ -46,7 +55,7 @@ func main() {
 	}
 
 	fmt.Println(Stats)
-	fmt.Println(Mods)
+	//fmt.Println(Mods)
 
 	var level int
 	fmt.Println("What level is your character?")
@@ -70,7 +79,9 @@ func main() {
 
 	time.Sleep(time.Second)
 
-	fmt.Println(Stats)
-	fmt.Println(Mods)
-
+	for i := 0; i < len(Cats); i++ {
+		fmt.Printf("\n%v: %v", Cats[i], Stats[Cats[i]])
+		fmt.Printf("\n%v: %v", Modifiers[i], Mods[Modifiers[i]])
+		fmt.Println()
+	}
 }
