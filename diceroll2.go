@@ -20,7 +20,7 @@ func modifier(modifier int) int {
 	return modifier
 }
 
-func main() {
+func diceroll() {
 	var generate string
 	var random bool
 
