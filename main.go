@@ -14,11 +14,13 @@ var Name, Species, Job string
 var Level int
 
 func sleep() {
+	//formatting for easier readability
 	time.Sleep(time.Second)
-
+	fmt.Println("\n------------\n")
 }
 
 func stringInput(req string) string {
+	//reads string input from the user and returns it.
 	stringInput := bufio.NewScanner(os.Stdin)
 	fmt.Printf("What is your character's %s?\n", req)
 	stringInput.Scan()
@@ -26,10 +28,24 @@ func stringInput(req string) string {
 	return variable
 }
 
-func basicInfo() (string, string, string, int) {
+func roll() int { //3 d6
+	rand.Seed(time.Now().UnixNano())
+	stat := rand.Intn(15) + 4
+	return stat
+}
+
+func modifier(modifier int) int { //calculates modifiers from stats
+	if modifier < 10 {
+		modifier -= 1
+	}
+	modifier = (modifier - 10) / 2
+	return modifier
+}
+
+func basicInfo() (string, string, string, int) { //gathers needed input for use is remainder of script
 	Name = stringInput("name")
 
-	fmt.Printf("What level is your character?")
+	fmt.Printf("What level is your character?\n")
 	fmt.Scan(&Level)
 	if Level > 20 {
 		fmt.Println("This sheet does not support legendary characters at this time.")
@@ -42,20 +58,6 @@ func basicInfo() (string, string, string, int) {
 	sleep()
 
 	return Name, Species, Job, Level
-}
-
-func roll() int {
-	rand.Seed(time.Now().UnixNano())
-	stat := rand.Intn(15) + 3
-	return stat
-}
-
-func modifier(modifier int) int {
-	if modifier < 10 {
-		modifier -= 1
-	}
-	modifier = (modifier - 10) / 2
-	return modifier
 }
 
 func diceroll(Level int, Job string) (map[string]int, map[string]int) {
@@ -133,15 +135,15 @@ func diceroll(Level int, Job string) (map[string]int, map[string]int) {
 	sleep()
 
 	for i := 0; i < len(Cats); i++ {
-		fmt.Printf("\n%v: %v", Cats[i], Stats[Cats[i]])
-		fmt.Printf("\n%v: %v", Modifiers[i], Mods[Modifiers[i]])
+		fmt.Printf("%v: %v\n", Cats[i], Stats[Cats[i]])
+		fmt.Printf("%v: %v\n", Modifiers[i], Mods[Modifiers[i]])
 		fmt.Println()
 	}
 	return Stats, Mods
 }
 
 func main() {
-	//fmt.Println("placeholder")
+	//fmt.Println("placeholder")\n", Name
 
 	basicInfo()
 	fmt.Printf("%v is a level %v %v %v.\n\n", Name, Level, Species, Job)
