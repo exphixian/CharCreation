@@ -18,28 +18,26 @@ func sleep() {
 
 }
 
-func basicInfo() (string, string, string, int) {
-	input := bufio.NewScanner(os.Stdin)
-	fmt.Println("What is your character's name?")
-	input.Scan()
-	Name = input.Text()
+func stringInput(req string) string {
+	stringInput := bufio.NewScanner(os.Stdin)
+	fmt.Printf("What is your character's %s?\n", req)
+	stringInput.Scan()
+	variable := stringInput.Text()
+	return variable
+}
 
-	fmt.Printf("What level is %v?\n", Name)
+func basicInfo() (string, string, string, int) {
+	Name = stringInput("name")
+
+	fmt.Printf("What level is your character?")
 	fmt.Scan(&Level)
 	if Level > 20 {
 		fmt.Println("This sheet does not support legendary characters at this time.")
 		os.Exit(1)
 	}
 
-	input = bufio.NewScanner(os.Stdin)
-	fmt.Printf("What species is %v?\n", Name)
-	input.Scan()
-	Species = input.Text()
-
-	input = bufio.NewScanner(os.Stdin)
-	fmt.Println("Which class will you be playing?")
-	input.Scan()
-	Job = input.Text()
+	Species = stringInput("species")
+	Job = stringInput("class")
 
 	sleep()
 
