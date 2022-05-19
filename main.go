@@ -79,6 +79,7 @@ func diceroll(Level int, Job string) (map[string]int, map[string]int) {
 	Cats := [6]string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
 	Modifiers := [6]string{"STR", "CON", "DEX", "INT", "WIS", "CHA"}
 
+	//assigns stats
 	if random {
 		for i := 0; i < len(Cats); i++ {
 			Stats[Cats[i]] = roll()
@@ -101,6 +102,7 @@ func diceroll(Level int, Job string) (map[string]int, map[string]int) {
 
 	sleep()
 
+	//ability points based on level/job
 	if Level > 3 {
 		abilityPoints := (Level / 4) * 2
 		if Level >= 19 {
