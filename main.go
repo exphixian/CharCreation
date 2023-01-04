@@ -1,24 +1,29 @@
-//Exit status 1: level over 20 detected
-
 package main
 
 import (
 	"bufio"
 	"fmt"
-	"math/rand"
 	"os"
-	"time"
 )
-
-var Name, Species, Job string
-var Level int
-
-func sleep() {
-	//formatting for easier readability
-	time.Sleep(time.Second)
-	fmt.Println("\n------------\n")
+/*
+type char struct {
+	name       string
+	level      int
+	hp         int
+	ac         int
+	throws     []int
+	species    string
+	subspecies string
+	job        string
+	stats      map[string]int
+	mods       map[string]int
+	languages  []string
+	feats      []string
+	spells     []string
 }
 
+var character char
+*/
 func stringInput(req string) string {
 	//reads string input from the user and returns it.
 	stringInput := bufio.NewScanner(os.Stdin)
@@ -28,128 +33,56 @@ func stringInput(req string) string {
 	return variable
 }
 
-func roll() int { //3 d6
-	rand.Seed(time.Now().UnixNano())
-	stat := rand.Intn(15) + 4
-	return stat
-}
+func main() {
+	name := stringInput("name")
+	fmt.Println(name)
 
-func modifier(modifier int) int { //calculates modifiers from stats
-	if modifier < 10 {
-		modifier -= 1
-	}
-	modifier = (modifier - 10) / 2
-	return modifier
-}
-
-func basicInfo() (string, string, string, int) { //gathers needed input for use is remainder of script
-	Name = stringInput("name")
-
+	level := 0
 	fmt.Printf("What level is your character?\n")
-	fmt.Scan(&Level)
-	if Level > 20 {
+	fmt.Scan(&level)
+	if level > 20 {
 		fmt.Println("This sheet does not support legendary characters at this time.")
 		os.Exit(1)
 	}
 
-	Species = stringInput("species")
-	Job = stringInput("class")
+	species := stringInput("species")
+	subspecies := ""
+
+	switch {
+	case species == "Dwarf":
+		fmt.Println("Which Dwarven subspecies are you playing? (Hill or Mountain)")
+		fmt.Scanln(&subspecies)
+	case species == "Elf":
+		fmt.Println("Which Elven subspecies are you playing? (High, Wood or Dark)")
+		fmt.Scanln(&subspecies)
+	case species == "Halfling":
+		fmt.Println("Which Halfling subspecies are you playing? (Lightfoot or Stout)")
+		fmt.Scanln(&subspecies)
+	case species == "Gnome":
+		fmt.Println("Which Gnome subspecies are you playing? (Forest or Rock)")
+		fmt.Scanln(&subspecies)
+	case species == "Human" || species == "Dragonborn" || species == "Half-Elf" || species == "Half-Orc" || species == "Tiefling":
+		fmt.Printf("\nNo %d subspecies supported at this time.", species)
+
+	default:
+		fmt.Println("That species is not supported by this script. Species related character adjustments will not be added.")
+
+	}
+
+	//Need to support multiclassing.
+	job := stringInput("job")
 
 	sleep()
 
-	return Name, Species, Job, Level
-}
+	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, species, subspecies, job)
 
-func diceroll(Level int, Job string) (map[string]int, map[string]int) {
 	var generate string
-	var random bool
-
 	fmt.Println("Yes or No: do you want your stats to be randomly generated?")
+
 	fmt.Scan(&generate)
-	if generate == "yes" {
-		random = true
-	} else if generate == "Yes" {
-		random = true
+	if generate == "yes" || generate == "Yes" {
+		stats, mods := randomizedStats(level, species, job)
 	} else {
-		random = false
+		stats, mods := manualStats(level, species, job)
 	}
-
-	Stats := make(map[string]int)
-	Mods := make(map[string]int)
-	Cats := [6]string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
-	Modifiers := [6]string{"STR", "CON", "DEX", "INT", "WIS", "CHA"}
-
-	//assigns stats
-	if random {
-		for i := 0; i < len(Cats); i++ {
-			Stats[Cats[i]] = roll()
-		}
-
-	} else {
-		fmt.Println("Please insert your stats.")
-		var input int
-		for i := 0; i < len(Cats); i++ {
-			fmt.Printf("\n%v:", Cats[i])
-			fmt.Scan(&input)
-			Stats[Cats[i]] = input
-		}
-	}
-
-	for i := 0; i < len(Cats); i++ {
-		fmt.Printf("\n%v: %v", Cats[i], Stats[Cats[i]])
-		fmt.Println()
-	}
-
-	sleep()
-
-	//ability points based on level/job
-	if Level > 3 {
-		abilityPoints := (Level / 4) * 2
-		if Level >= 19 {
-			abilityPoints += 2
-		}
-
-		if Job == "fighter" {
-			if Level >= 14 {
-				abilityPoints += 4
-			} else if Level >= 6 {
-				abilityPoints += 2
-			}
-
-		} else if Job == "rogue" {
-			if Level >= 10 {
-				abilityPoints += 2
-			}
-		}
-
-		fmt.Printf("Where do you want to allocate your %d ability points?\n", abilityPoints)
-		for i := 0; i < abilityPoints; i++ {
-			var input string
-			fmt.Scan(&input)
-			Stats[input] += 1
-		}
-	}
-
-	for i := 0; i < len(Modifiers); i++ {
-		Mods[Modifiers[i]] = modifier(Stats[Cats[i]])
-	}
-
-	sleep()
-
-	for i := 0; i < len(Cats); i++ {
-		fmt.Printf("%v: %v\n", Cats[i], Stats[Cats[i]])
-		fmt.Printf("%v: %v\n", Modifiers[i], Mods[Modifiers[i]])
-		fmt.Println()
-	}
-	return Stats, Mods
-}
-
-func main() {
-	//fmt.Println("placeholder")\n", Name
-
-	basicInfo()
-	fmt.Printf("%v is a level %v %v %v.\n\n", Name, Level, Species, Job)
-
-	diceroll(Level, Job)
-
 }
