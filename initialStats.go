@@ -1,11 +1,12 @@
 package main
 
-import(
+import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
-func characterAdj(level int, species string, subspecies string, job string, stats map[string]int) map[string]int{
+func characterAdj(level int, species string, subspecies string, job string, stats map[string]int) map[string]int {
 	//add species support
 	///*
 	switch {
@@ -39,7 +40,7 @@ func characterAdj(level int, species string, subspecies string, job string, stat
 		}
 
 	case species == "Human":
-		for k, v := range stats {
+		for _, v := range stats {
 			v += 1
 		}
 
@@ -69,78 +70,79 @@ func characterAdj(level int, species string, subspecies string, job string, stat
 	}
 	//*/
 
-	abilityPoints := (Level / 4) * 2
+	abilityPoints := (level / 4) * 2
 
 	if species == "Half-Elf" {
 		abilityPoints += 2
 	}
 
-	if level > 3 {
-		if Level >= 19 {
+	if level >= 19 {
+		abilityPoints += 2
+	}
+
+	if job == "fighter" {
+		if level >= 14 {
+			abilityPoints += 4
+		} else if level >= 6 {
 			abilityPoints += 2
 		}
 
-		if job == "fighter" {
-			if Level >= 14 {
-				abilityPoints += 4
-			} else if Level >= 6 {
-				abilityPoints += 2
-			}
-
-		} else if job == "rogue" {
-			if Level >= 10 {
-				abilityPoints += 2
-			}
+	} else if job == "rogue" {
+		if level >= 10 {
+			abilityPoints += 2
 		}
-
 	}
 
-	fmt.Printf("Where do you want to allocate your %d ability points?\n", abilityPoints)
+	if abilityPoints != 0 {
+		fmt.Printf("Where do you want to allocate your %d ability points?\n", abilityPoints)
 		for i := 0; i < abilityPoints; i++ {
 			var input string
 			fmt.Scanln(&input)
 			stats[input] += 1
 		}
-	
+	}
+
+	return stats
+
 }
 
-func randomizedStats(level int, species string, subspecies string, job string) map[string]int, map[string]int {
+func randomizedStats(level int, species string, subspecies string, job string) (map[string]int, map[string]int) {
 	rand.Seed(time.Now().UnixNano())
 	stats := map[string]int{
-		"strength" : rand.Intn(15) + 4,
-		"constitution" : rand.Intn(15) + 4,
-		"dexterity" : rand.Intn(15) + 4,
-		"intelligence" :rand.Intn(15) + 4,
-		"wisdom": rand.Intn(15) + 4,
-		"charisma": rand.Intn(15) + 4,
+		"strength":     rand.Intn(15) + 4,
+		"constitution": rand.Intn(15) + 4,
+		"dexterity":    rand.Intn(15) + 4,
+		"intelligence": rand.Intn(15) + 4,
+		"wisdom":       rand.Intn(15) + 4,
+		"charisma":     rand.Intn(15) + 4,
 	}
 
 	//need to add in a confirm and reroll option
 
-	stats = characterAdj(level, species, stats)
-	
+	fmt.Println("Your base stats are: ", stats)
+	stats = characterAdj(level, species, subspecies, job, stats)
 
 	mods := map[string]int{
-		"STR" : (stats["strength"]-10)/2,
-		"CON" : (stats["constitution"]-10)/2,
-		"DEX" : (stats["dexterity"]-10)/2,
-		"INT" : (stats["intelligence"]-10)/2,
-		"WIS": (stats["wisdom"]-10)/2,
-		"CHA": (stats["charisma"]-10)/2,
+		"STR": (stats["strength"] - 10) / 2,
+		"CON": (stats["constitution"] - 10) / 2,
+		"DEX": (stats["dexterity"] - 10) / 2,
+		"INT": (stats["intelligence"] - 10) / 2,
+		"WIS": (stats["wisdom"] - 10) / 2,
+		"CHA": (stats["charisma"] - 10) / 2,
 	}
 
 	//Need to figure out the negative mod mismatch
 	/*
-	for k, v := range mods {
-		if v 
-	}
+		for k, v := range mods {
+			if v
+		}
 	*/
 
 	return stats, mods
 }
 
-func manualStats() map[string]int, map[string]int {
-	
+func manualStats(level int, species string, subspecies string, job string) (map[string]int, map[string]int) {
+
 	catagories := []string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
 	stats := map[string]int{}
 
@@ -150,28 +152,27 @@ func manualStats() map[string]int, map[string]int {
 		fmt.Printf("\n%v:", catagories[i])
 		fmt.Scan(&input)
 
-		stats = append(stats, catagories[i]: input)
+		stats[catagories[i]] = input
 	}
 
-		//need to add in a confirm and reroll option
+	//need to add in a confirm and reroll option
 
-	stats = characterAdj(level, species, stats)
-	
+	stats = characterAdj(level, species, subspecies, job, stats)
 
 	mods := map[string]int{
-		"STR" : (stats["strength"]-10)/2,
-		"CON" : (stats["constitution"]-10)/2,
-		"DEX" : (stats["dexterity"]-10)/2,
-		"INT" : (stats["intelligence"]-10)/2,
-		"WIS": (stats["wisdom"]-10)/2,
-		"CHA": (stats["charisma"]-10)/2,
+		"STR": (stats["strength"] - 10) / 2,
+		"CON": (stats["constitution"] - 10) / 2,
+		"DEX": (stats["dexterity"] - 10) / 2,
+		"INT": (stats["intelligence"] - 10) / 2,
+		"WIS": (stats["wisdom"] - 10) / 2,
+		"CHA": (stats["charisma"] - 10) / 2,
 	}
 
 	//Need to figure out the negative mod mismatch
 	/*
-	for k, v := range mods {
-		if v 
-	}
+		for k, v := range mods {
+			if v
+		}
 	*/
 
 	return stats, mods

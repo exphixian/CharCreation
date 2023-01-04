@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 )
+
 /*
 type char struct {
 	name       string
@@ -35,7 +36,6 @@ func stringInput(req string) string {
 
 func main() {
 	name := stringInput("name")
-	fmt.Println(name)
 
 	level := 0
 	fmt.Printf("What level is your character?\n")
@@ -62,7 +62,7 @@ func main() {
 		fmt.Println("Which Gnome subspecies are you playing? (Forest or Rock)")
 		fmt.Scanln(&subspecies)
 	case species == "Human" || species == "Dragonborn" || species == "Half-Elf" || species == "Half-Orc" || species == "Tiefling":
-		fmt.Printf("\nNo %d subspecies supported at this time.", species)
+		fmt.Printf("\nNo %v subspecies supported at this time.\n", species)
 
 	default:
 		fmt.Println("That species is not supported by this script. Species related character adjustments will not be added.")
@@ -74,15 +74,21 @@ func main() {
 
 	sleep()
 
-	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, species, subspecies, job)
+	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, species, job)
 
 	var generate string
+	var stats map[string]int
+	var mods map[string]int
+
 	fmt.Println("Yes or No: do you want your stats to be randomly generated?")
 
 	fmt.Scan(&generate)
 	if generate == "yes" || generate == "Yes" {
-		stats, mods := randomizedStats(level, species, job)
+		stats, mods = randomizedStats(level, species, subspecies, job)
 	} else {
-		stats, mods := manualStats(level, species, job)
+		stats, mods = manualStats(level, species, subspecies, job)
 	}
+
+	fmt.Println(stats, mods)
+
 }
