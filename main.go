@@ -57,9 +57,9 @@ func main() {
 	//Need to support multiclassing.
 	job := stringInput("job")
 
-	sleep()
-
 	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, speciesInfo.species, job)
+
+	sleep()
 
 	var generate string
 	var stats map[string]int
@@ -75,6 +75,8 @@ func main() {
 	}
 
 	fmt.Println(stats, mods)
+
 	sleep()
+
 	fmt.Println(speciesInfo)
 }

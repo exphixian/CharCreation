@@ -14,17 +14,6 @@ type speciesDetails struct {
 	other      []string
 }
 
-/*type job struct {
-	hp         int
-	ac         int
-	throws     []int
-	job        string
-	stats      map[string]int
-	mods       map[string]int
-	feats      []string
-	spells     []string
-}*/
-
 func speciesMGMT() speciesDetails {
 	character := stringInput("species")
 
@@ -39,10 +28,9 @@ func speciesMGMT() speciesDetails {
 
 		switch {
 		case sub == "Hill":
-			subMod["wisdom"] = 1
-			subMod["hp"] = 1
+			subMod = map[string]int{"wisdom": 1, "hp": 1}
 		case sub == "Mountain":
-			subMod["strength"] = 2
+			subMod = map[string]int{"strength": 2, "hp": 1}
 			subMisc = append(subMisc, "Light Armor Proficiency", "Medium Armor Proficiency")
 		default:
 			fmt.Println("That subspecies is not supported by this script. Subspecies related character adjustments will not be added.\n")
@@ -76,13 +64,13 @@ func speciesMGMT() speciesDetails {
 
 		switch {
 		case sub == "High":
-			subMod["intelligence"] = 1
+			subMod = map[string]int{"intelligence": 1}
 			subMisc = append(subMisc, "Longsword Proficiency", "Shortsword Proficiency", "Longbow Proficiency", "Shortbow Proficiency", "Cantrip 1", "Extra Language")
 		case sub == "Wood":
-			subMod["wisdom"] = 1
+			subMod = map[string]int{"wisdom": 1}
 			subMisc = append(subMisc, "Longsword Proficiency", "Shortsword Proficiency", "Longbow Proficiency", "Shortbow Proficiency", "Speed: 35", "Mask of the Wild")
 		case sub == "Dark":
-			subMod["charisma"] = 1
+			subMod = map[string]int{"charisma": 1}
 			subMisc = append(subMisc, "Superior Darkvision", "Sunlight Sensitivity", "Drow Magic", "Rapier Proficiency", "Shortsword Proficiency", "Hand Crossbow Proficiency")
 		default:
 			fmt.Println("That subspecies is not supported by this script. Subspecies related character adjustments will not be added.\n")
@@ -116,10 +104,10 @@ func speciesMGMT() speciesDetails {
 
 		switch {
 		case sub == "Lightfoot":
-			subMod["charisma"] = 1
+			subMod = map[string]int{"charisma": 1}
 			subMisc = append(subMisc, "Naturally Stealthy")
 		case sub == "Stout":
-			subMod["constitution"] = 1
+			subMod = map[string]int{"constitution": 1}
 			subMisc = append(subMisc, "Stout Resilience")
 		default:
 			fmt.Println("That subspecies is not supported by this script. Subspecies related character adjustments will not be added.\n")
@@ -183,10 +171,10 @@ func speciesMGMT() speciesDetails {
 
 		switch {
 		case sub == "Forest":
-			subMod["dexterity"] = 1
+			subMod = map[string]int{"dexterity": 1}
 			subMisc = []string{"Natural Illusionist", "Speak with Small Beasts"}
 		case sub == "Rock":
-			subMod["constitution"] = 1
+			subMod = map[string]int{"constitution": 1}
 			subMisc = []string{"Artificer's Lore", "Tinker"}
 		default:
 			fmt.Println("That subspecies is not supported by this script. Subspecies related character adjustments will not be added.\n")
@@ -267,11 +255,3 @@ func speciesMGMT() speciesDetails {
 	var speciesInfo speciesDetails
 	return speciesInfo
 }
-
-/*func jobMGMT(character string) struct{} {
-	var jobInfo struct{}
-	switch {
-	case character == "":
-	}
-	return jobInfo
-}*/
