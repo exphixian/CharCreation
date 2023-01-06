@@ -10,7 +10,15 @@ import (
 type char struct {
 	name       string
 	level      int
-	hp         int
+	size 			string
+	speed 			int
+	baseLanguages 	[]string
+	subrace		[]string
+	statmods 		map[string]int
+	subracemods		map[string]map[string]int
+	feats			[]string
+	other			[]string
+	subracemisc		map[string]map[string]inthp         int
 	ac         int
 	throws     []int
 	species    string
@@ -28,7 +36,7 @@ var character char
 func stringInput(req string) string {
 	//reads string input from the user and returns it.
 	stringInput := bufio.NewScanner(os.Stdin)
-	fmt.Printf("What is your character's %s?\n", req)
+	fmt.Printf("\nWhat is your character's %s?\n", req)
 	stringInput.Scan()
 	variable := stringInput.Text()
 	return variable
@@ -45,36 +53,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	species := stringInput("species")
-	subspecies := ""
-
-	switch {
-	case species == "Dwarf":
-		fmt.Println("Which Dwarven subspecies are you playing? (Hill or Mountain)")
-		fmt.Scanln(&subspecies)
-	case species == "Elf":
-		fmt.Println("Which Elven subspecies are you playing? (High, Wood or Dark)")
-		fmt.Scanln(&subspecies)
-	case species == "Halfling":
-		fmt.Println("Which Halfling subspecies are you playing? (Lightfoot or Stout)")
-		fmt.Scanln(&subspecies)
-	case species == "Gnome":
-		fmt.Println("Which Gnome subspecies are you playing? (Forest or Rock)")
-		fmt.Scanln(&subspecies)
-	case species == "Human" || species == "Dragonborn" || species == "Half-Elf" || species == "Half-Orc" || species == "Tiefling":
-		fmt.Printf("\nNo %v subspecies supported at this time.\n", species)
-
-	default:
-		fmt.Println("That species is not supported by this script. Species related character adjustments will not be added.")
-
-	}
-
+	speciesInfo := speciesMGMT()
 	//Need to support multiclassing.
 	job := stringInput("job")
 
 	sleep()
 
-	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, species, job)
+	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, speciesInfo.species, job)
 
 	var generate string
 	var stats map[string]int
@@ -84,11 +69,12 @@ func main() {
 
 	fmt.Scan(&generate)
 	if generate == "yes" || generate == "Yes" {
-		stats, mods = randomizedStats(level, species, subspecies, job)
+		stats, mods = randomizedStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, job)
 	} else {
-		stats, mods = manualStats(level, species, subspecies, job)
+		stats, mods = manualStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, job)
 	}
 
 	fmt.Println(stats, mods)
-
+	sleep()
+	fmt.Println(speciesInfo)
 }

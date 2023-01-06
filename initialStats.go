@@ -6,69 +6,73 @@ import (
 	"time"
 )
 
-func characterAdj(level int, species string, subspecies string, job string, stats map[string]int) map[string]int {
+func characterAdj(level int, species string, subspecies string, speciesmods map[string]int, job string, stats map[string]int) map[string]int {
 	//add species support
-	///*
-	switch {
-	case species == "Dwarf":
-		stats["constitution"] += 2
-		switch {
-		case subspecies == "Hill":
-			stats["wisdom"] += 1
-		case subspecies == "Mountain":
-			stats["strength"] += 2
-		}
 
-	case species == "Elf":
-		stats["dexterity"] += 2
-		switch {
-		case subspecies == "High":
-			stats["intelligence"] += 1
-		case subspecies == "Wood":
-			stats["wisdom"] += 1
-		case subspecies == "Dark":
-			stats["charisma"] += 1
-		}
-
-	case species == "Halfling":
-		stats["dexterity"] += 2
-		switch {
-		case subspecies == "Lightfoot":
-			stats["charisma"] += 1
-		case subspecies == "Stout":
-			stats["constitution"] += 1
-		}
-
-	case species == "Human":
-		for _, v := range stats {
-			v += 1
-		}
-
-	case species == "Dragonborn":
-		stats["strength"] += 2
-		stats["charisma"] += 1
-
-	case species == "Gnome":
-		stats["intelligence"] += 2
-		switch {
-		case subspecies == "Forest":
-			stats["dexterity"] += 1
-		case subspecies == "Rock":
-			stats["constitution"] += 1
-		}
-
-	case species == "Half-Elf":
-		stats["charisma"] += 2
-
-	case species == "Half-Orc":
-		stats["strength"] += 2
-		stats["constitution"] += 1
-
-	case species == "Tiefling":
-		stats["charisma"] += 2
-		stats["intelligence"] += 1
+	for k, v := range speciesmods {
+		stats[k] += v
 	}
-	//*/
+	/*
+		switch {
+		case species == "Dwarf":
+			stats["constitution"] += 2
+			switch {
+			case subspecies == "Hill":
+				stats["wisdom"] += 1
+			case subspecies == "Mountain":
+				stats["strength"] += 2
+			}
+
+		case species == "Elf":
+			stats["dexterity"] += 2
+			switch {
+			case subspecies == "High":
+				stats["intelligence"] += 1
+			case subspecies == "Wood":
+				stats["wisdom"] += 1
+			case subspecies == "Dark":
+				stats["charisma"] += 1
+			}
+
+		case species == "Halfling":
+			stats["dexterity"] += 2
+			switch {
+			case subspecies == "Lightfoot":
+				stats["charisma"] += 1
+			case subspecies == "Stout":
+				stats["constitution"] += 1
+			}
+
+		case species == "Human":
+			for _, v := range stats {
+				v += 1
+			}
+
+		case species == "Dragonborn":
+			stats["strength"] += 2
+			stats["charisma"] += 1
+
+		case species == "Gnome":
+			stats["intelligence"] += 2
+			switch {
+			case subspecies == "Forest":
+				stats["dexterity"] += 1
+			case subspecies == "Rock":
+				stats["constitution"] += 1
+			}
+
+		case species == "Half-Elf":
+			stats["charisma"] += 2
+
+		case species == "Half-Orc":
+			stats["strength"] += 2
+			stats["constitution"] += 1
+
+		case species == "Tiefling":
+			stats["charisma"] += 2
+			stats["intelligence"] += 1
+		}
+		//*/
 
 	abilityPoints := (level / 4) * 2
 
@@ -106,7 +110,7 @@ func characterAdj(level int, species string, subspecies string, job string, stat
 
 }
 
-func randomizedStats(level int, species string, subspecies string, job string) (map[string]int, map[string]int) {
+func randomizedStats(level int, species string, subspecies string, speciesmods map[string]int, job string) (map[string]int, map[string]int) {
 	rand.Seed(time.Now().UnixNano())
 	stats := map[string]int{
 		"strength":     rand.Intn(15) + 4,
@@ -120,7 +124,7 @@ func randomizedStats(level int, species string, subspecies string, job string) (
 	//need to add in a confirm and reroll option
 
 	fmt.Println("Your base stats are: ", stats)
-	stats = characterAdj(level, species, subspecies, job, stats)
+	stats = characterAdj(level, species, subspecies, speciesmods, job, stats)
 
 	mods := map[string]int{
 		"STR": (stats["strength"] - 10) / 2,
@@ -141,7 +145,7 @@ func randomizedStats(level int, species string, subspecies string, job string) (
 	return stats, mods
 }
 
-func manualStats(level int, species string, subspecies string, job string) (map[string]int, map[string]int) {
+func manualStats(level int, species string, subspecies string, speciesmods map[string]int, job string) (map[string]int, map[string]int) {
 
 	catagories := []string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
 	stats := map[string]int{}
@@ -157,7 +161,7 @@ func manualStats(level int, species string, subspecies string, job string) (map[
 
 	//need to add in a confirm and reroll option
 
-	stats = characterAdj(level, species, subspecies, job, stats)
+	stats = characterAdj(level, species, subspecies, speciesmods, job, stats)
 
 	mods := map[string]int{
 		"STR": (stats["strength"] - 10) / 2,
