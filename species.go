@@ -120,8 +120,7 @@ func speciesMGMT() speciesDetails {
 			languages:  "Common, Halfling",
 			subspecies: sub,
 			statmods:   map[string]int{"dexterity": 2},
-			//subracemods: ["Lightfoot":["intelligence":1, "hp":1], "Stout":["constitution":1]],
-			other: []string{"Brave", "Lucky", "Halfling Nimbleness"},
+			other:      []string{"Brave", "Lucky", "Halfling Nimbleness"},
 		}
 
 		for k, v := range subMod {
@@ -187,8 +186,7 @@ func speciesMGMT() speciesDetails {
 			languages:  "Common, Gnomish",
 			subspecies: sub,
 			statmods:   map[string]int{"intelligence": 2},
-			//subracemods: ["Lightfoot":["intelligence":1, "hp":1], "Stout":["constitution":1]],
-			other: []string{"Darkvision", "Gnome Cunning"},
+			other:      []string{"Darkvision", "Gnome Cunning"},
 		}
 
 		for k, v := range subMod {

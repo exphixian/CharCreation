@@ -7,72 +7,9 @@ import (
 )
 
 func characterAdj(level int, species string, subspecies string, speciesmods map[string]int, job string, stats map[string]int) map[string]int {
-	//add species support
-
 	for k, v := range speciesmods {
 		stats[k] += v
 	}
-	/*
-		switch {
-		case species == "Dwarf":
-			stats["constitution"] += 2
-			switch {
-			case subspecies == "Hill":
-				stats["wisdom"] += 1
-			case subspecies == "Mountain":
-				stats["strength"] += 2
-			}
-
-		case species == "Elf":
-			stats["dexterity"] += 2
-			switch {
-			case subspecies == "High":
-				stats["intelligence"] += 1
-			case subspecies == "Wood":
-				stats["wisdom"] += 1
-			case subspecies == "Dark":
-				stats["charisma"] += 1
-			}
-
-		case species == "Halfling":
-			stats["dexterity"] += 2
-			switch {
-			case subspecies == "Lightfoot":
-				stats["charisma"] += 1
-			case subspecies == "Stout":
-				stats["constitution"] += 1
-			}
-
-		case species == "Human":
-			for _, v := range stats {
-				v += 1
-			}
-
-		case species == "Dragonborn":
-			stats["strength"] += 2
-			stats["charisma"] += 1
-
-		case species == "Gnome":
-			stats["intelligence"] += 2
-			switch {
-			case subspecies == "Forest":
-				stats["dexterity"] += 1
-			case subspecies == "Rock":
-				stats["constitution"] += 1
-			}
-
-		case species == "Half-Elf":
-			stats["charisma"] += 2
-
-		case species == "Half-Orc":
-			stats["strength"] += 2
-			stats["constitution"] += 1
-
-		case species == "Tiefling":
-			stats["charisma"] += 2
-			stats["intelligence"] += 1
-		}
-		//*/
 
 	abilityPoints := (level / 4) * 2
 
