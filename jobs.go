@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 type jobDetails struct {
+	job              string
 	hp               int
 	savingThrows     []string
 	proficiencies    []string
@@ -84,6 +85,9 @@ func jobMGMT(level int) jobDetails {
 	profBonus := map[int]int{1: 2, 2: 2, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 4, 10: 4, 11: 4, 12: 4, 13: 5, 14: 5, 15: 5, 16: 5, 17: 6,
 		18: 6, 19: 6, 20: 6}
 
+	cantrips := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
+		18: 4, 19: 4, 20: 4}
+
 	switch {
 	case character == "Barbarian":
 		hitPoints := 12
@@ -99,6 +103,7 @@ func jobMGMT(level int) jobDetails {
 			20: {00, 4}}
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"strength", "constitution"},
 			proficiencies:    []string{"Light Armor", "Medium Armor", "Shields", "Simple Weapons", "Martial Weapons"},
@@ -119,16 +124,14 @@ func jobMGMT(level int) jobDetails {
 
 		feats := featParse(possiblefeatures, level)
 
-		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
-			18: 4, 19: 4, 20: 4}
-
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"dexterity", "charisma"},
 			proficiencies:    []string{"Light Armor", "Hand Crossbows", "Longswords", "Simple Weapons", "Rapiers", "Shortswords", "3 musical instruments"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips": specialtyInts[level]},
+			specialty:        map[string]int{"Cantrips: ": cantrips[level]},
 			spellslots:       spells9(level),
 		}
 
@@ -148,6 +151,7 @@ func jobMGMT(level int) jobDetails {
 			17: 5, 18: 5, 19: 5, 20: 5}
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"wisdom", "charisma"},
 			proficiencies:    []string{"Light Armor", "Medium Armor", "Shields", "Simple Weapons"},
@@ -168,17 +172,15 @@ func jobMGMT(level int) jobDetails {
 
 		feats := featParse(possiblefeatures, level)
 
-		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
-			18: 4, 19: 4, 20: 4}
-
 		jobInfo := jobDetails{
+			job:          character,
 			hp:           hpRolls(level, hitPoints, hitPoints),
 			savingThrows: []string{"wisdom", "intelligence"},
 			proficiencies: []string{"Light Armor (non-metal)", "Medium Armor (non-metal)", "Shields (non-metal)", "Herbalism Kits",
 				"Weapons: clubs, daggers, darts, javelins, maces, quarterstaffs, sickles, slings, spears"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips": specialtyInts[level]},
+			specialty:        map[string]int{"Cantrips: ": cantrips[level]},
 			spellslots:       spells9(level),
 		}
 
@@ -194,6 +196,7 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"strength", "constitution"},
 			proficiencies:    []string{"All Armor", "Shields", "Simple Weapons", "Martial Weapons"},
@@ -218,12 +221,13 @@ func jobMGMT(level int) jobDetails {
 			14: {8, 14, 25}, 15: {8, 15, 25}, 16: {8, 16, 25}, 17: {10, 17, 25}, 18: {10, 18, 30}, 19: {10, 19, 30}, 20: {10, 20, 30}}
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"strength", "dexterity"},
 			proficiencies:    []string{"Simple Weapons", "Shortswords"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Martial Arts: 1d": specialtyInts[level][0], "Ki Points:": intAdj[level][1], "Unarmored Movement: +": intAdj[level][2]},
+			specialty:        map[string]int{"Martial Arts: 1d": specialtyInts[level][0], "Ki Points:": specialtyInts[level][1], "Unarmored Movement: +": specialtyInts[level][2]},
 		}
 		return jobInfo
 
@@ -237,6 +241,7 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"wisdom", "charisma"},
 			proficiencies:    []string{"All Armor", "Shields", "Simple Weapons", "Martial Weapons"},
@@ -258,6 +263,7 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"strength", "dexterity"},
 			proficiencies:    []string{"Light Armor", "Medium Armor", "Simple Weapons", "Martial Weapons"},
@@ -277,6 +283,7 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"dexterity", "intelligence"},
 			proficiencies:    []string{"Light Armor", "Simple Weapons", "Hand Crossbows", "Longswords", "Rapiers", "Shortswords", "Thieves' Tools"},
@@ -297,6 +304,7 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"constitution", "charisma"},
 			proficiencies:    []string{"Daggers", "Darts", " Slings", "Quarterstaffs", "Light Crossbows"},
@@ -310,10 +318,9 @@ func jobMGMT(level int) jobDetails {
 	case character == "Warlock":
 		hitPoints := 8
 
-		specialtyInts := map[int][]int{1: {2, 2, 1, 1, 0}, 2: {2, 3, 2, 1, 2}, 3: {2, 4, 2, 2, 2}, 4: {3, 5, 2, 2, 2}, 5: {3, 6, 2, 3, 3},
-			6: {3, 7, 2, 3, 3}, 7: {3, 8, 2, 4, 4}, 8: {3, 9, 2, 4, 4}, 9: {3, 10, 2, 5, 5}, 10: {4, 10, 2, 5, 5}, 11: {4, 11, 3, 5, 5},
-			12: {4, 11, 3, 5, 6}, 13: {4, 12, 3, 5, 6}, 14: {4, 12, 3, 5, 6}, 15: {4, 13, 3, 5, 7}, 16: {4, 13, 3, 5, 7}, 17: {4, 14, 4, 5, 7},
-			18: {4, 14, 4, 5, 8}, 19: {4, 15, 4, 5, 8}, 20: {4, 15, 4, 5, 8}}
+		specialtyInts := map[int][]int{1: {2, 1, 1, 0}, 2: {3, 2, 1, 2}, 3: {4, 2, 2, 2}, 4: {5, 2, 2, 2}, 5: {6, 2, 3, 3}, 6: {7, 2, 3, 3},
+			7: {8, 2, 4, 4}, 8: {9, 2, 4, 4}, 9: {10, 2, 5, 5}, 10: {10, 2, 5, 5}, 11: {11, 3, 5, 5}, 12: {11, 3, 5, 6}, 13: {12, 3, 5, 6},
+			14: {12, 3, 5, 6}, 15: {13, 3, 5, 7}, 16: {13, 3, 5, 7}, 17: {14, 4, 5, 7}, 18: {14, 4, 5, 8}, 19: {15, 4, 5, 8}, 20: {15, 4, 5, 8}}
 
 		possiblefeatures := map[string]int{"Overworldly Patron": 1, "Pact Magic": 1, "Eldritch Invocations": 2, "Pact Boon": 3,
 			"Overworldly Patron feat #1": 6, "Overworldly Patron feat #2": 10, "Mystic Arcanum (6th level)": 11, "Mystic Arcanum (7th level)": 13,
@@ -322,21 +329,19 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"wisdom", "charisma"},
 			proficiencies:    []string{"Light Armor", "Simple Weapons"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty: map[string]int{"Cantrips: ": specialtyInts[level][0], "Spells Known: ": specialtyInts[level][1],
-				"Spell Slots: ": specialtyInts[level][2], "Slot Level: ": specialtyInts[level][3], "Invocations Known: ": specialtyInts[level][4]},
+			specialty: map[string]int{"Cantrips: ": cantrips[level], "Spells Known: ": specialtyInts[level][0],
+				"Spell Slots: ": specialtyInts[level][1], "Slot Level: ": specialtyInts[level][2], "Invocations Known: ": specialtyInts[level][3]},
 		}
 		return jobInfo
 
 	case character == "Wizard":
 		hitPoints := 6
-
-		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
-			18: 4, 19: 4, 20: 4}
 
 		possiblefeatures := map[string]int{"Spellcasting": 1, "Arcane Recovery": 1, "Arcane Tradition": 2, "Arcane Tradition feat #1": 6,
 			"Arcane Tradition feat #2": 10, "Arcane Tradition feat #3": 14, "Spell Mastery": 18, "Signature Spell": 20}
@@ -344,12 +349,13 @@ func jobMGMT(level int) jobDetails {
 		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
+			job:              character,
 			hp:               hpRolls(level, hitPoints, hitPoints),
 			savingThrows:     []string{"wisdom", "intelligence"},
 			proficiencies:    []string{"Daggers", "Darts", "Quarterstaffs", "Slings", "Light Crossbows"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips": specialtyInts[level]},
+			specialty:        map[string]int{"Cantrips": cantrips[level]},
 			spellslots:       spells9(level),
 		}
 

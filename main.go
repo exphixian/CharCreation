@@ -8,31 +8,10 @@ import (
 
 /*
 type char struct {
-	name       string
-	level      int
-	size 			string
-	speed 			int
-	baseLanguages 	[]string
-	subrace		[]string
-	statmods 		map[string]int
-	subracemods		map[string]map[string]int
-	feats			[]string
-	other			[]string
-	subracemisc		map[string]map[string]inthp         int
-	ac         int
-	throws     []int
-	species    string
-	subspecies string
-	job        string
-	stats      map[string]int
-	mods       map[string]int
-	languages  []string
-	feats      []string
-	spells     []string
 }
 
-var character char
 */
+
 func stringInput(req string) string {
 	//reads string input from the user and returns it.
 	stringInput := bufio.NewScanner(os.Stdin)
@@ -55,9 +34,9 @@ func main() {
 
 	speciesInfo := speciesMGMT()
 	//Need to support multiclassing.
-	job := stringInput("job")
+	jobInfo := jobMGMT(level)
 
-	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, speciesInfo.species, job)
+	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, speciesInfo.species, jobInfo.job)
 
 	sleep()
 
@@ -69,9 +48,9 @@ func main() {
 
 	fmt.Scan(&generate)
 	if generate == "yes" || generate == "Yes" {
-		stats, mods = randomizedStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, job)
+		stats, mods = randomizedStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	} else {
-		stats, mods = manualStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, job)
+		stats, mods = manualStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	}
 
 	fmt.Println(stats, mods)
@@ -79,4 +58,5 @@ func main() {
 	sleep()
 
 	fmt.Println(speciesInfo)
+
 }
