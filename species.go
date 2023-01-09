@@ -250,6 +250,9 @@ func speciesMGMT() speciesDetails {
 		break
 	}
 
-	var speciesInfo speciesDetails
+	speciesInfo := speciesDetails{
+		species: character,
+	}
+
 	return speciesInfo
 }

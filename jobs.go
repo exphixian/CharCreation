@@ -363,8 +363,10 @@ func jobMGMT(level int) jobDetails {
 
 	default:
 		fmt.Println("That job is not supported by this script. Job related character adjustments will not be added.\n")
-	}
 
-	var jobInfo jobDetails
+	}
+	jobInfo := jobDetails{
+		job: character,
+	}
 	return jobInfo
 }

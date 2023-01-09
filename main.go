@@ -6,11 +6,18 @@ import (
 	"os"
 )
 
-/*
 type char struct {
+	name          string
+	level         int
+	abilityScores map[string]int
+	modifiers     map[string]int
+	hp            int
+	species       string
+	job           string
+	speed         int
+	languages     string
+	features      []string
 }
-
-*/
 
 func stringInput(req string) string {
 	//reads string input from the user and returns it.
@@ -22,41 +29,54 @@ func stringInput(req string) string {
 }
 
 func main() {
-	name := stringInput("name")
+	var character char
+	character.name = stringInput("name")
 
-	level := 0
+	character.level = 0
 	fmt.Printf("What level is your character?\n")
-	fmt.Scan(&level)
-	if level > 20 {
+	fmt.Scan(&character.level)
+	if character.level > 20 {
 		fmt.Println("This sheet does not support legendary characters at this time.")
 		os.Exit(1)
 	}
 
 	speciesInfo := speciesMGMT()
-	//Need to support multiclassing.
-	jobInfo := jobMGMT(level)
+	character.species = speciesInfo.species
+	character.speed = speciesInfo.speed
+	character.languages = speciesInfo.languages
 
-	fmt.Printf("%v is a level %v %v %v.\n\n", name, level, speciesInfo.species, jobInfo.job)
+	//Need to support multiclassing.
+	jobInfo := jobMGMT(character.level)
+	character.job = jobInfo.job
+
+	for i := 0; i < len(speciesInfo.other); i++ {
+		character.features = append(character.features, speciesInfo.other[i])
+	}
+
+	for i := 0; i < len(jobInfo.features); i++ {
+		character.features = append(character.features, jobInfo.features[i])
+	}
+
+	fmt.Printf("%v is a level %v %v %v.\n\n", character.name, character.level, speciesInfo.species, jobInfo.job)
 
 	sleep()
 
 	var generate string
-	var stats map[string]int
-	var mods map[string]int
 
 	fmt.Println("Yes or No: do you want your stats to be randomly generated?")
 
 	fmt.Scan(&generate)
 	if generate == "yes" || generate == "Yes" {
-		stats, mods = randomizedStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
+		character.abilityScores, character.modifiers = randomizedStats(character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	} else {
-		stats, mods = manualStats(level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
+		character.abilityScores, character.modifiers = manualStats(character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	}
 
-	fmt.Println(stats, mods)
+	character.hp = (character.level * character.modifiers["CON"]) + jobInfo.hp
 
 	sleep()
 
-	fmt.Println(speciesInfo)
-
+	fmt.Printf("\n%+v\n Level: %+v\n Ability Scores: %+v\n Modifiers: %+v\n HP: %+v\n Species: %+v\n Job: %+v\n Speed: %+v\n Languages: %+v\n Feats: %+v\n",
+		character.name, character.level, character.abilityScores, character.modifiers, character.hp, character.species, character.job, character.speed,
+		character.languages, character.features)
 }

@@ -60,7 +60,7 @@ func randomizedStats(level int, species string, subspecies string, speciesmods m
 
 	//need to add in a confirm and reroll option
 
-	fmt.Println("Your base stats are: ", stats)
+	fmt.Printf("\n\nYour base stats are: \n%+v\n", stats)
 	stats = characterAdj(level, species, subspecies, speciesmods, job, stats)
 
 	mods := map[string]int{
