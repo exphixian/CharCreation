@@ -61,13 +61,22 @@ func spells9(level int) map[int]int {
 	return s
 }
 
+func featParse(possiblefeatures map[string]int, level int) []string {
+	feats := []string{}
+	for k, v := range possiblefeatures {
+		if v <= level {
+			feats = append(feats, k)
+		}
+	}
+	return feats
+}
+
 func jobMGMT(level int) jobDetails {
 	/*
 		need to:
 			*support multiclassing
 			*support paths
 		 	*support skill choices
-			*test spells
 	*/
 
 	character := stringInput("job")
@@ -82,13 +91,8 @@ func jobMGMT(level int) jobDetails {
 		possiblefeatures := map[string]int{"Rage": 1, "Unarmored Defense": 1, "Reckless Attack": 2, "Danger Sense": 2, "Primal Path": 3,
 			"Extra Attack": 5, "Fast Movement": 5, "Feral Instinct": 7, "Brutal Critical (1)": 9, "Relentless Rage": 11, "Brutal Critical (2)": 13,
 			"Persistent Rage": 15, "Brutal Critical (3)": 17, "Indomitable Might": 18, "Primal Champion": 20}
-		feats := []string{}
 
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		specialtyInts := map[int][]int{1: {2, 2}, 2: {2, 2}, 3: {3, 2}, 4: {3, 2}, 5: {3, 2}, 6: {4, 2}, 7: {4, 2}, 8: {4, 2}, 9: {4, 3},
 			10: {4, 3}, 11: {4, 3}, 12: {5, 3}, 13: {5, 3}, 14: {5, 3}, 15: {5, 3}, 16: {5, 4}, 17: {6, 4}, 18: {6, 4}, 19: {6, 4},
@@ -113,13 +117,7 @@ func jobMGMT(level int) jobDetails {
 			"Song of Rest (d8)": 9, "Bardic Inspiration (d10)": 10, "Expertise #2": 10, "Magical Secrets #1": 10, "Song of Rest (d10)": 13,
 			"Magical Secrets #2": 14, "Bardic Inspiration (d12)": 15, "Song of Rest (d12)": 17, "Magical Secrets #3": 18, "Superior Inspiration": 20}
 
-		feats := []string{}
-
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
 			18: 4, 19: 4, 20: 4}
@@ -144,13 +142,7 @@ func jobMGMT(level int) jobDetails {
 			"Divine Domain Feature #3": 8, "Divine Intervention": 10, "Destroy Undead (CR 2)": 11, "Destroy Undead (CR 3)": 14,
 			"Destroy Undead (CR 4)": 17, "Divine Domain Feature #4": 17, "Channel Divinity (3/rest)": 18, "Divine Intervention Improvement": 20}
 
-		feats := []string{}
-
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		specialtyInts := map[int]int{1: 3, 2: 3, 3: 3, 4: 4, 5: 4, 6: 4, 7: 4, 8: 4, 9: 4, 10: 5, 11: 5, 12: 5, 13: 5, 14: 5, 15: 5, 16: 5,
 			17: 5, 18: 5, 19: 5, 20: 5}
@@ -174,13 +166,7 @@ func jobMGMT(level int) jobDetails {
 			"Druid Circle feature #1": 6, "Wild Shape Improvement #2": 8, "Druid Circle feature #2": 10, "Druid Circle feature #3": 14, "Timeless Body": 18,
 			"Beast Spells": 18, "Archdruid": 20}
 
-		feats := []string{}
-
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
 			18: 4, 19: 4, 20: 4}
@@ -205,13 +191,7 @@ func jobMGMT(level int) jobDetails {
 			"Martial Archetype feat #1": 7, "Indomitable (1 use)": 9, "Martial Archetype feat #2": 10, "Extra Attack (2)": 11, "Indomitable (2 uses)": 13,
 			"Martial Archetype feat #3": 15, "Action Surge (2 uses)": 17, "Indomitable (3 uses)": 17, "Martial Archetype feat #4": 18, "Extra Attack (3)": 20}
 
-		feats := []string{}
-
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
 			hp:               hpRolls(level, hitPoints, hitPoints),
@@ -230,13 +210,8 @@ func jobMGMT(level int) jobDetails {
 			"Deflect Missiles": 3, "Slow Fall": 4, "Extra Attack (1)": 5, "Stunning Strike": 5, "Ki-Empowered Strikes": 6, "Monastic Tradition Feat #1": 6,
 			"Evasion": 7, "Stillness of Mind": 7, "Unarmored Movement Improvement": 9, "Purity of Body": 10, "Monastic Tradition Feat #2": 11,
 			"Tongue of the Sun and Moon": 13, "Diamond Soul": 14, "Timeless Body": 15, "Monastic Tradition Feat #3": 17, "Empty Body": 18, "Perfect Self": 20}
-		feats := []string{}
 
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		specialtyInts := map[int][]int{1: {4, 0, 0}, 2: {4, 2, 10}, 3: {4, 3, 10}, 4: {4, 4, 10}, 5: {6, 5, 10}, 6: {6, 6, 15},
 			7: {6, 7, 15}, 8: {6, 8, 15}, 9: {6, 9, 15}, 10: {6, 10, 20}, 11: {8, 11, 20}, 12: {8, 12, 20}, 13: {8, 13, 20},
@@ -258,13 +233,8 @@ func jobMGMT(level int) jobDetails {
 		possiblefeatures := map[string]int{"Divine Sense": 1, "Lay on Hands": 1, "Fighting Style": 2, "Spellcasting": 2, "Divine Smite": 2,
 			"Divine Health": 3, "Sacred Oath": 3, "Extra Attack": 5, "Aura of Protection": 6, "Sacred Oath feature #1": 7, "Aura of Courage": 10,
 			"Improved Divine Smite": 11, "Cleansing Touch": 14, "Sacred Oath feature #2": 15, "Aura Improvements": 18, "Sacred Oath feature #3": 20}
-		feats := []string{}
 
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
 			hp:               hpRolls(level, hitPoints, hitPoints),
@@ -284,13 +254,8 @@ func jobMGMT(level int) jobDetails {
 			"Ranger Archetype feature #1": 7, "Land's Stride": 8, "Natural Explorer Improvement #2": 10, "Hide in Plain Sight": 10,
 			"Ranger Archetype feature #2": 11, "Vanish": 14, "Favored Enemy Improvement #2": 14, "Ranger Archetype feature #3": 15,
 			"Feral Senses": 18, "Foe Slayer": 20}
-		feats := []string{}
 
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
 			hp:               hpRolls(level, hitPoints, hitPoints),
@@ -308,13 +273,8 @@ func jobMGMT(level int) jobDetails {
 		possiblefeatures := map[string]int{"Expertise #1": 1, "Sneak Attack": 1, "Thieves' Cant": 1, "Cunning Action": 2, "Roguish Archetype": 3,
 			"Uncanny Dodge": 5, "Expertise #2": 6, "Evasion": 7, "Roguish Archetype feature #1": 9, "Reliable Talent": 11, "Roguish Archetype feature #2": 13,
 			"Blindsense": 14, "Slippery Mind": 15, "Roguish Archetype feature #3": 17, "Elusive": 18, "Stroke of Luck": 20}
-		feats := []string{}
 
-		for k, v := range possiblefeatures {
-			if v <= level {
-				feats = append(feats, k)
-			}
-		}
+		feats := featParse(possiblefeatures, level)
 
 		jobInfo := jobDetails{
 			hp:               hpRolls(level, hitPoints, hitPoints),
@@ -328,11 +288,72 @@ func jobMGMT(level int) jobDetails {
 	case character == "Sorcerer":
 		hitPoints := 6
 
+		specialtyInts := map[int]int{1: 4, 2: 4, 3: 4, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5, 9: 5, 10: 6, 11: 6, 12: 6, 13: 6, 14: 6, 15: 6, 16: 6, 17: 6,
+			18: 6, 19: 6, 20: 6}
+
+		possiblefeatures := map[string]int{"Spellcasting": 1, "Sorcerous Origin": 1, "Font of Magic": 2, "Metamagic #1": 3, "Sorcerous Origin feat #1": 6,
+			"Metamagic #2": 10, "Sorcerous Origin feat #2": 14, "Metamagic #3": 17, "Sorcerous Origin feat #3": 18, "Sorcerous Restoration": 20}
+
+		feats := featParse(possiblefeatures, level)
+
+		jobInfo := jobDetails{
+			hp:               hpRolls(level, hitPoints, hitPoints),
+			savingThrows:     []string{"constitution", "charisma"},
+			proficiencies:    []string{"Daggers", "Darts", " Slings", "Quarterstaffs", "Light Crossbows"},
+			proficiencyBonus: profBonus[level],
+			features:         feats,
+			specialty:        map[string]int{"Cantrips": specialtyInts[level]},
+			spellslots:       spells9(level),
+		}
+		return jobInfo
+
 	case character == "Warlock":
 		hitPoints := 8
 
+		specialtyInts := map[int][]int{1: {2, 2, 1, 1, 0}, 2: {2, 3, 2, 1, 2}, 3: {2, 4, 2, 2, 2}, 4: {3, 5, 2, 2, 2}, 5: {3, 6, 2, 3, 3},
+			6: {3, 7, 2, 3, 3}, 7: {3, 8, 2, 4, 4}, 8: {3, 9, 2, 4, 4}, 9: {3, 10, 2, 5, 5}, 10: {4, 10, 2, 5, 5}, 11: {4, 11, 3, 5, 5},
+			12: {4, 11, 3, 5, 6}, 13: {4, 12, 3, 5, 6}, 14: {4, 12, 3, 5, 6}, 15: {4, 13, 3, 5, 7}, 16: {4, 13, 3, 5, 7}, 17: {4, 14, 4, 5, 7},
+			18: {4, 14, 4, 5, 8}, 19: {4, 15, 4, 5, 8}, 20: {4, 15, 4, 5, 8}}
+
+		possiblefeatures := map[string]int{"Overworldly Patron": 1, "Pact Magic": 1, "Eldritch Invocations": 2, "Pact Boon": 3,
+			"Overworldly Patron feat #1": 6, "Overworldly Patron feat #2": 10, "Mystic Arcanum (6th level)": 11, "Mystic Arcanum (7th level)": 13,
+			"Overworldly Patron feat #3": 14, "Mystic Arcanum (8th level)": 15, "Mystic Arcanum (9th level)": 17, "Eldritch Master": 20}
+
+		feats := featParse(possiblefeatures, level)
+
+		jobInfo := jobDetails{
+			hp:               hpRolls(level, hitPoints, hitPoints),
+			savingThrows:     []string{"wisdom", "charisma"},
+			proficiencies:    []string{"Light Armor", "Simple Weapons"},
+			proficiencyBonus: profBonus[level],
+			features:         feats,
+			specialty: map[string]int{"Cantrips: ": specialtyInts[level][0], "Spells Known: ": specialtyInts[level][1],
+				"Spell Slots: ": specialtyInts[level][2], "Slot Level: ": specialtyInts[level][3], "Invocations Known: ": specialtyInts[level][4]},
+		}
+		return jobInfo
+
 	case character == "Wizard":
 		hitPoints := 6
+
+		specialtyInts := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
+			18: 4, 19: 4, 20: 4}
+
+		possiblefeatures := map[string]int{"Spellcasting": 1, "Arcane Recovery": 1, "Arcane Tradition": 2, "Arcane Tradition feat #1": 6,
+			"Arcane Tradition feat #2": 10, "Arcane Tradition feat #3": 14, "Spell Mastery": 18, "Signature Spell": 20}
+
+		feats := featParse(possiblefeatures, level)
+
+		jobInfo := jobDetails{
+			hp:               hpRolls(level, hitPoints, hitPoints),
+			savingThrows:     []string{"wisdom", "intelligence"},
+			proficiencies:    []string{"Daggers", "Darts", "Quarterstaffs", "Slings", "Light Crossbows"},
+			proficiencyBonus: profBonus[level],
+			features:         feats,
+			specialty:        map[string]int{"Cantrips": specialtyInts[level]},
+			spellslots:       spells9(level),
+		}
+
+		return jobInfo
 
 	default:
 		fmt.Println("That job is not supported by this script. Job related character adjustments will not be added.\n")
