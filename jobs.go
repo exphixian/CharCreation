@@ -80,6 +80,7 @@ func jobMGMT(level int) jobDetails {
 		 	*support skill choices
 	*/
 
+	fmt.Println("\n\nSupported jobs: Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard")
 	character := stringInput("job")
 
 	profBonus := map[int]int{1: 2, 2: 2, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 4, 10: 4, 11: 4, 12: 4, 13: 5, 14: 5, 15: 5, 16: 5, 17: 6,

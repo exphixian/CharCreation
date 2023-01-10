@@ -15,6 +15,7 @@ type speciesDetails struct {
 }
 
 func speciesMGMT() speciesDetails {
+	fmt.Println("\nSupported species: Dwarf, Elf, Halfling, Human, Dragonborn, Gnome, Half-Elf, Half-Orc, Tiefling")
 	character := stringInput("species")
 
 	var subMod map[string]int

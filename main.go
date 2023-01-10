@@ -33,7 +33,7 @@ func main() {
 	character.name = stringInput("name")
 
 	character.level = 0
-	fmt.Printf("What level is your character?\n")
+	fmt.Printf("\nWhat level is your character?\n")
 	fmt.Scan(&character.level)
 	if character.level > 20 {
 		fmt.Println("This sheet does not support legendary characters at this time.")
@@ -57,7 +57,7 @@ func main() {
 		character.features = append(character.features, jobInfo.features[i])
 	}
 
-	fmt.Printf("%v is a level %v %v %v.\n\n", character.name, character.level, speciesInfo.species, jobInfo.job)
+	fmt.Printf("\n%v is a level %v %v %v.\n\n", character.name, character.level, speciesInfo.species, jobInfo.job)
 
 	sleep()
 
