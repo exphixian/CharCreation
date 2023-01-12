@@ -47,7 +47,11 @@ func characterAdj(level int, species string, subspecies string, speciesmods map[
 
 }
 
+//for randomly generating and adjusting stats
+//Need to add in a confirm and reroll option
 func randomizedStats(level int, species string, subspecies string, speciesmods map[string]int, job string) (map[string]int, map[string]int) {
+
+	//randomizing stats - currently set to roll between 4 & 18
 	rand.Seed(time.Now().UnixNano())
 	stats := map[string]int{
 		"strength":     rand.Intn(15) + 4,
@@ -58,11 +62,13 @@ func randomizedStats(level int, species string, subspecies string, speciesmods m
 		"charisma":     rand.Intn(15) + 4,
 	}
 
-	//need to add in a confirm and reroll option
-
 	fmt.Printf("\n\nYour base stats are: \n%+v\n", stats)
+
+	//Stat adjustment based on character features (level, species, job, etc)
 	stats = characterAdj(level, species, subspecies, speciesmods, job, stats)
 
+	//defining modifiers for skill checks.
+	//Need to figure out the negative mod mismatch
 	mods := map[string]int{
 		"STR": (stats["strength"] - 10) / 2,
 		"CON": (stats["constitution"] - 10) / 2,
@@ -71,17 +77,11 @@ func randomizedStats(level int, species string, subspecies string, speciesmods m
 		"WIS": (stats["wisdom"] - 10) / 2,
 		"CHA": (stats["charisma"] - 10) / 2,
 	}
-
-	//Need to figure out the negative mod mismatch
-	/*
-		for k, v := range mods {
-			if v
-		}
-	*/
-
 	return stats, mods
 }
 
+//for randomly generating and adjusting stats
+//Need to add in confirmation query
 func manualStats(level int, species string, subspecies string, speciesmods map[string]int, job string) (map[string]int, map[string]int) {
 
 	catagories := []string{"strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"}
@@ -96,10 +96,11 @@ func manualStats(level int, species string, subspecies string, speciesmods map[s
 		stats[catagories[i]] = input
 	}
 
-	//need to add in a confirm and reroll option
-
+	//Stat adjustment based on character features (level, species, job, etc)
 	stats = characterAdj(level, species, subspecies, speciesmods, job, stats)
 
+	//defining modifiers for skill checks.
+	//Need to figure out the negative mod mismatch
 	mods := map[string]int{
 		"STR": (stats["strength"] - 10) / 2,
 		"CON": (stats["constitution"] - 10) / 2,
@@ -108,13 +109,6 @@ func manualStats(level int, species string, subspecies string, speciesmods map[s
 		"WIS": (stats["wisdom"] - 10) / 2,
 		"CHA": (stats["charisma"] - 10) / 2,
 	}
-
-	//Need to figure out the negative mod mismatch
-	/*
-		for k, v := range mods {
-			if v
-		}
-	*/
 
 	return stats, mods
 }

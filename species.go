@@ -209,9 +209,8 @@ func speciesMGMT() speciesDetails {
 			speed:      30,
 			languages:  "Common, Elvish",
 			subspecies: "",
-			//2 ability points
-			statmods: map[string]int{"charisma": 2},
-			other:    []string{"Darkvision", "Fey Ancestry", "Skill Versitility", "Extra Language"},
+			statmods:   map[string]int{"charisma": 2},
+			other:      []string{"Darkvision", "Fey Ancestry", "Skill Versitility", "Extra Language"},
 		}
 
 		return speciesInfo

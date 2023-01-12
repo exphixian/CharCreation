@@ -23,6 +23,7 @@ func hpRolls(level int, hitPoints int, sides int) int {
 	return hitPoints
 }
 
+//level map for spellcasters supporting 5 spell levels
 func spells5(level int) map[int]int {
 	spells := map[int]map[int]int{1: {1: 2}, 2: {1: 3}, 3: {1: 3}, 4: {1: 4}, 5: {1: 4, 2: 2}, 6: {1: 4, 2: 2}, 7: {1: 4, 2: 3}, 8: {1: 4, 2: 3},
 		9: {1: 4, 2: 3, 3: 2}, 10: {1: 4, 2: 3, 3: 2}, 11: {1: 4, 2: 3, 3: 3}, 12: {1: 4, 2: 3, 3: 3}, 13: {1: 4, 2: 3, 3: 3, 4: 1},
@@ -41,6 +42,7 @@ func spells5(level int) map[int]int {
 	return s
 }
 
+//level map for spellcasters supporting 9 spell levels
 func spells9(level int) map[int]int {
 	spells := map[int]map[int]int{1: {1: 2}, 2: {1: 3}, 3: {1: 4, 2: 2}, 4: {1: 4, 2: 3}, 5: {1: 4, 2: 3, 3: 2}, 6: {1: 4, 2: 3, 3: 3},
 		7: {1: 4, 2: 3, 3: 3, 4: 1}, 8: {1: 4, 2: 3, 3: 3, 4: 2}, 9: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1}, 10: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2},
@@ -62,6 +64,7 @@ func spells9(level int) map[int]int {
 	return s
 }
 
+//identifying which mapped features are in scope for the character
 func featParse(possiblefeatures map[string]int, level int) []string {
 	feats := []string{}
 	for k, v := range possiblefeatures {
@@ -72,23 +75,27 @@ func featParse(possiblefeatures map[string]int, level int) []string {
 	return feats
 }
 
+/*
+	need to:
+		*support multiclassing
+		*support paths
+	 	*support skill choices
+*/
+
 func jobMGMT(level int) jobDetails {
-	/*
-		need to:
-			*support multiclassing
-			*support paths
-		 	*support skill choices
-	*/
 
 	fmt.Println("\n\nSupported jobs: Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard")
 	character := stringInput("job")
 
+	//level map for proficiency bonus
 	profBonus := map[int]int{1: 2, 2: 2, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 4, 10: 4, 11: 4, 12: 4, 13: 5, 14: 5, 15: 5, 16: 5, 17: 6,
 		18: 6, 19: 6, 20: 6}
 
+	//level map for standard cantrips
 	cantrips := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
 		18: 4, 19: 4, 20: 4}
 
+	//class identification & build information
 	switch {
 	case character == "Barbarian":
 		hitPoints := 12
@@ -364,8 +371,8 @@ func jobMGMT(level int) jobDetails {
 
 	default:
 		fmt.Println("That job is not supported by this script. Job related character adjustments will not be added.\n")
-
 	}
+
 	jobInfo := jobDetails{
 		job: character,
 	}

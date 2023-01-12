@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+//placing all character sheet information in one place to allow for easier export and further development
 type char struct {
 	name          string
 	level         int
@@ -19,8 +20,8 @@ type char struct {
 	features      []string
 }
 
+//reads string input from the user and returns it.
 func stringInput(req string) string {
-	//reads string input from the user and returns it.
 	stringInput := bufio.NewScanner(os.Stdin)
 	fmt.Printf("\nWhat is your character's %s?\n", req)
 	stringInput.Scan()
@@ -36,7 +37,7 @@ func main() {
 	fmt.Printf("\nWhat level is your character?\n")
 	fmt.Scan(&character.level)
 	if character.level > 20 {
-		fmt.Println("This sheet does not support legendary characters at this time.")
+		fmt.Println("This sheet does not support legendary characters.")
 		os.Exit(1)
 	}
 
@@ -49,6 +50,7 @@ func main() {
 	jobInfo := jobMGMT(character.level)
 	character.job = jobInfo.job
 
+	//combining attributes that pull from species and job
 	for i := 0; i < len(speciesInfo.other); i++ {
 		character.features = append(character.features, speciesInfo.other[i])
 	}
@@ -72,6 +74,7 @@ func main() {
 		character.abilityScores, character.modifiers = manualStats(character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	}
 
+	//Need to support job/species HP adjustment
 	character.hp = (character.level * character.modifiers["CON"]) + jobInfo.hp
 
 	sleep()
