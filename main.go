@@ -1,12 +1,13 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
-// placing all character sheet information in one place to allow for easier export and further development
+var Character char
+
 type char struct {
 	name          string
 	level         int
@@ -20,46 +21,35 @@ type char struct {
 	features      []string
 }
 
-// reads string input from the user and returns it.
-func stringInput(req string) string {
-	stringInput := bufio.NewScanner(os.Stdin)
-	fmt.Printf("\nWhat is your character's %s?\n", req)
-	stringInput.Scan()
-	variable := stringInput.Text()
-	return variable
-}
-
 func main() {
-	var character char
-	character.name = stringInput("name")
+	Character.name = stringInput("name")
 
-	character.level = 0
-	fmt.Printf("\nWhat level is your character?\n")
-	fmt.Scan(&character.level)
-	if character.level > 20 {
-		fmt.Println("This sheet does not support legendary characters.")
+	fmt.Printf("\nWhat level is your Character?\n")
+	fmt.Scan(&Character.level)
+	if Character.level > 20 {
+		fmt.Println("This sheet does not support legendary Characters.")
 		os.Exit(1)
 	}
 
 	speciesInfo := speciesMGMT()
-	character.species = speciesInfo.species
-	character.speed = speciesInfo.speed
-	character.languages = speciesInfo.languages
+	Character.species = speciesInfo.species
+	Character.speed = speciesInfo.speed
+	Character.languages = speciesInfo.languages
 
 	//Need to support multiclassing.
-	jobInfo := jobMGMT(character.level)
-	character.job = jobInfo.job
+	jobInfo := jobMGMT(Character.level)
+	Character.job = jobInfo.job
 
 	//combining attributes that pull from species and job
 	for i := 0; i < len(speciesInfo.other); i++ {
-		character.features = append(character.features, speciesInfo.other[i])
+		Character.features = append(Character.features, speciesInfo.other[i])
 	}
 
 	for i := 0; i < len(jobInfo.features); i++ {
-		character.features = append(character.features, jobInfo.features[i])
+		Character.features = append(Character.features, jobInfo.features[i])
 	}
 
-	fmt.Printf("\n%v is a level %v %v %v.\n\n", character.name, character.level, speciesInfo.species, jobInfo.job)
+	fmt.Printf("\n%v is a level %v %v %v.\n\n", Character.name, Character.level, speciesInfo.species, jobInfo.job)
 	sleep()
 
 	var generate string
@@ -67,18 +57,19 @@ func main() {
 	fmt.Println("Yes or No: do you want your stats to be randomly generated?")
 
 	fmt.Scan(&generate)
-	if generate == "yes" || generate == "Yes" {
-		character.abilityScores, character.modifiers = randomizedStats(character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
+	generate = strings.ToLower(generate)
+	if generate == "yes" || generate == "y" {
+		Character.abilityScores, Character.modifiers = randomizedStats(Character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	} else {
-		character.abilityScores, character.modifiers = manualStats(character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
+		Character.abilityScores, Character.modifiers = manualStats(Character.level, speciesInfo.species, speciesInfo.subspecies, speciesInfo.statmods, jobInfo.job)
 	}
 
 	//Need to support job/species HP adjustment
-	character.hp = (character.level * character.modifiers["CON"]) + jobInfo.hp
+	Character.hp = (Character.level * Character.modifiers["CON"]) + jobInfo.hp
 
 	sleep()
 
 	fmt.Printf("\n%+v\n Level: %+v\n Ability Scores: %+v\n Modifiers: %+v\n HP: %+v\n Species: %+v\n Job: %+v\n Speed: %+v\n Languages: %+v\n Feats: %+v\n",
-		character.name, character.level, character.abilityScores, character.modifiers, character.hp, character.species, character.job, character.speed,
-		character.languages, character.features)
+		Character.name, Character.level, Character.abilityScores, Character.modifiers, Character.hp, Character.species, Character.job, Character.speed,
+		Character.languages, Character.features)
 }
