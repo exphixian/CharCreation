@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type jobDetails struct {
 	job              string
@@ -15,7 +17,7 @@ type jobDetails struct {
 
 func hpRolls(level int, hitPoints int, sides int) int {
 	for i := 1; i < level; i++ {
-		hpRolls := roll(sides, 1)
+		hpRolls := diceRoll(sides, 1)
 		for i := 0; i < len(hpRolls); i++ {
 			hitPoints += hpRolls[i]
 		}
@@ -23,48 +25,7 @@ func hpRolls(level int, hitPoints int, sides int) int {
 	return hitPoints
 }
 
-//level map for spellcasters supporting 5 spell levels
-func spells5(level int) map[int]int {
-	spells := map[int]map[int]int{1: {1: 2}, 2: {1: 3}, 3: {1: 3}, 4: {1: 4}, 5: {1: 4, 2: 2}, 6: {1: 4, 2: 2}, 7: {1: 4, 2: 3}, 8: {1: 4, 2: 3},
-		9: {1: 4, 2: 3, 3: 2}, 10: {1: 4, 2: 3, 3: 2}, 11: {1: 4, 2: 3, 3: 3}, 12: {1: 4, 2: 3, 3: 3}, 13: {1: 4, 2: 3, 3: 3, 4: 1},
-		14: {1: 4, 2: 3, 3: 3, 4: 1}, 15: {1: 4, 2: 3, 3: 3, 4: 2}, 16: {1: 4, 2: 3, 3: 3, 4: 2}, 17: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1},
-		18: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1}, 19: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2}, 20: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2}}
-
-	s := map[int]int{}
-	for k, v := range spells {
-		if k == level {
-			s = v
-			return s
-			break
-		}
-	}
-
-	return s
-}
-
-//level map for spellcasters supporting 9 spell levels
-func spells9(level int) map[int]int {
-	spells := map[int]map[int]int{1: {1: 2}, 2: {1: 3}, 3: {1: 4, 2: 2}, 4: {1: 4, 2: 3}, 5: {1: 4, 2: 3, 3: 2}, 6: {1: 4, 2: 3, 3: 3},
-		7: {1: 4, 2: 3, 3: 3, 4: 1}, 8: {1: 4, 2: 3, 3: 3, 4: 2}, 9: {1: 4, 2: 3, 3: 3, 4: 3, 5: 1}, 10: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2},
-		11: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1}, 12: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1}, 13: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1},
-		14: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1}, 15: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1},
-		16: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1}, 17: {1: 4, 2: 3, 3: 3, 4: 3, 5: 2, 6: 1, 7: 1, 8: 1, 9: 1},
-		18: {1: 4, 2: 3, 3: 3, 4: 3, 5: 3, 6: 1, 7: 1, 8: 1, 9: 1}, 19: {1: 4, 2: 3, 3: 3, 4: 3, 5: 3, 6: 2, 7: 1, 8: 1, 9: 1},
-		20: {1: 4, 2: 3, 3: 3, 4: 3, 5: 3, 6: 2, 7: 2, 8: 1, 9: 1}}
-
-	s := map[int]int{}
-	for k, v := range spells {
-		if k == level {
-			s = v
-			return s
-			break
-		}
-	}
-
-	return s
-}
-
-//identifying which mapped features are in scope for the character
+// identifying which mapped features are in scope for the character
 func featParse(possiblefeatures map[string]int, level int) []string {
 	feats := []string{}
 	for k, v := range possiblefeatures {

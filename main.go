@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-//placing all character sheet information in one place to allow for easier export and further development
+// placing all character sheet information in one place to allow for easier export and further development
 type char struct {
 	name          string
 	level         int
@@ -20,7 +20,7 @@ type char struct {
 	features      []string
 }
 
-//reads string input from the user and returns it.
+// reads string input from the user and returns it.
 func stringInput(req string) string {
 	stringInput := bufio.NewScanner(os.Stdin)
 	fmt.Printf("\nWhat is your character's %s?\n", req)
@@ -60,7 +60,6 @@ func main() {
 	}
 
 	fmt.Printf("\n%v is a level %v %v %v.\n\n", character.name, character.level, speciesInfo.species, jobInfo.job)
-
 	sleep()
 
 	var generate string
