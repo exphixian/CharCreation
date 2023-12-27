@@ -1,4 +1,4 @@
-package build
+package main
 
 // level map for spellcasters supporting 5 spell levels
 func spells5(level int) map[int]int {
@@ -37,4 +37,11 @@ func spells9(level int) map[int]int {
 	}
 
 	return s
+}
+
+// Level map for standard cantrips.
+func cantrip(level int) int {
+	cantripsMap := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
+		18: 4, 19: 4, 20: 4}
+	return cantripsMap[level]
 }

@@ -36,11 +36,10 @@ func featParse(possiblefeatures map[string]int, level int) []string {
 	return feats
 }
 
-/*
-	need to:
-		*support multiclassing
-		*support paths
-	 	*support skill choices
+/* TODO:
+	*support multiclassing
+	*support paths
+ 	*support skill choices
 */
 
 func jobMGMT(level int) jobDetails {
@@ -48,15 +47,13 @@ func jobMGMT(level int) jobDetails {
 	fmt.Println("\n\nSupported jobs: Barbarian, Bard, Cleric, Druid, Fighter, Monk, Paladin, Ranger, Rogue, Sorcerer, Warlock, Wizard")
 	character := stringInput("job")
 
-	//level map for proficiency bonus
+	// Level map for proficiency bonus.
 	profBonus := map[int]int{1: 2, 2: 2, 3: 2, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 4, 10: 4, 11: 4, 12: 4, 13: 5, 14: 5, 15: 5, 16: 5, 17: 6,
 		18: 6, 19: 6, 20: 6}
 
-	//level map for standard cantrips
-	cantrips := map[int]int{1: 2, 2: 2, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3, 10: 4, 11: 4, 12: 4, 13: 4, 14: 4, 15: 4, 16: 4, 17: 4,
-		18: 4, 19: 4, 20: 4}
+	cantrips := cantrip(Character.level)
 
-	//class identification & build information
+	// class identification & build information
 	switch {
 	case character == "Barbarian":
 		hitPoints := 12
@@ -100,7 +97,7 @@ func jobMGMT(level int) jobDetails {
 			proficiencies:    []string{"Light Armor", "Hand Crossbows", "Longswords", "Simple Weapons", "Rapiers", "Shortswords", "3 musical instruments"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips: ": cantrips[level]},
+			specialty:        map[string]int{"Cantrips: ": cantrips},
 			spellslots:       spells9(level),
 		}
 
@@ -149,7 +146,7 @@ func jobMGMT(level int) jobDetails {
 				"Weapons: clubs, daggers, darts, javelins, maces, quarterstaffs, sickles, slings, spears"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips: ": cantrips[level]},
+			specialty:        map[string]int{"Cantrips: ": cantrips},
 			spellslots:       spells9(level),
 		}
 
@@ -304,7 +301,7 @@ func jobMGMT(level int) jobDetails {
 			proficiencies:    []string{"Light Armor", "Simple Weapons"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty: map[string]int{"Cantrips: ": cantrips[level], "Spells Known: ": specialtyInts[level][0],
+			specialty: map[string]int{"Cantrips: ": cantrips, "Spells Known: ": specialtyInts[level][0],
 				"Spell Slots: ": specialtyInts[level][1], "Slot Level: ": specialtyInts[level][2], "Invocations Known: ": specialtyInts[level][3]},
 		}
 		return jobInfo
@@ -324,7 +321,7 @@ func jobMGMT(level int) jobDetails {
 			proficiencies:    []string{"Daggers", "Darts", "Quarterstaffs", "Slings", "Light Crossbows"},
 			proficiencyBonus: profBonus[level],
 			features:         feats,
-			specialty:        map[string]int{"Cantrips": cantrips[level]},
+			specialty:        map[string]int{"Cantrips": cantrips},
 			spellslots:       spells9(level),
 		}
 
